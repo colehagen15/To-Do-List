@@ -8,7 +8,7 @@ return {}
 template: 
 `<div id="app" >
 <h1>To Do List <img class="image" src="checkmark.jpg"/> </h1>
- <br>
+
 <list-items/>
 
 </div>`,
