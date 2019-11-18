@@ -22,31 +22,50 @@ Vue.component('list-items', {
   return {
     items: [
       { task: 
-        {name: null, isComplete: false}
+        {name: null, isComplete: false, dayTime: null}
       }
     ],
     }
   },
   methods: {
        //Adds item to list, if nothing in input nothing happens. Resets input to blank
-       AddItem() {                                         
+      AddItem() {                                         
         inputField = document.getElementById(`input`);
         i = 1; //Test
         if (inputField.value != "") {
-          this.items.push({task: {name: (inputField.value), isComplete: false}});
+          var d = new Date();
+          var date = d.toLocaleString();
+          this.items.push({task: {name: (inputField.value), isComplete: false, dayTime: date}});
           
-          console.log(this.items[i].task); //Testing Purposes 
+          console.log(this.items[i]); //Testing Purposes 
           ++i;      
         }
       inputField.value="";                                
+      },
+      //Delete item from list
+      DeleteItem() {
+        var i = 0;
+        while(i < this.items.length) {
+          if (this.items[i].task.isComplete === true) {
+            this.items.splice(i,1);
+            --i;
+          }
+          ++i;
+      }
+
       }
   },
   template: 
   `<div> 
   <ul v-if="items[1]" class = "inner">
   <li v-if="item.task.name" v-for="(item, index) in items" >
-    <h6 v-show="item.task.isComplete"> <del><input type="checkbox" v-model="item.task.isComplete" checked> {{ item.task.name }}</del> </h6>
-    <h6 v-show="!item.task.isComplete"><input type="checkbox" v-model="item.task.isComplete"> {{ item.task.name }} </h6>
+    <h6 v-show="item.task.isComplete"> <del><input type="checkbox" v-model="item.task.isComplete" checked> {{ item.task.name }}</del> 
+    <p class="date">{{ item.task.dayTime}}</p>
+    </h6>
+    
+    <h6 v-show="!item.task.isComplete"><input type="checkbox" v-model="item.task.isComplete"> {{ item.task.name }} 
+    <p class = "date">{{ item.task.dayTime }}</p>
+    </h6>
   </li>
 </ul>
 
@@ -58,7 +77,8 @@ Vue.component('list-items', {
       
   </div>
   <br>
-    <button class="btn btn-primary" style="danger" @click="AddItem" id="addItem">Add Task</button> 
+    <button class="btn btn-med btn-primary" style="danger" @click="AddItem" id="addItem">Add Task</button>
+    <button class = "btn btn-med btn-danger" @click="DeleteItem">Delete Completed</button>  
 </div>`,
   })
 
