@@ -61,15 +61,17 @@ Vue.component('list-items', {
   `<div> 
   <ul v-if="items[1]" class = "inner">
   <li v-if="item.task.name" v-for="(item, index) in items" >
-    <h6 v-show="item.task.isComplete"> <del><input type="checkbox" v-model="item.task.isComplete" checked> {{ item.task.name }}
-    <br> Due: {{ item.task.dueDate }}</del> 
+    <div v-show="item.task.isComplete"> 
+    <h5><del><input type="checkbox" v-model="item.task.isComplete" checked> {{ item.task.name }}</del></h5>
+    Due: {{ item.task.dueDate }} 
     <p class="date">Created: {{ item.task.dayTime}}</p>
-    </h6>
+    </div>
     
-    <h6 v-show="!item.task.isComplete"><input type="checkbox" v-model="item.task.isComplete"> {{ item.task.name }} 
-    <br> Due: {{ item.task.dueDate }} 
-    <p class = "date">Created: {{ item.task.dayTime }}</p>
-    </h6>
+    <div v-show="!item.task.isComplete">
+      <h5><input type="checkbox" v-model="item.task.isComplete"> {{ item.task.name }}</h5> 
+      Due: {{ item.task.dueDate }} 
+      <p class = "date">Created: {{ item.task.dayTime }}</p>
+    </div>
   </li>
 </ul>
 
