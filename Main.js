@@ -22,7 +22,7 @@ Vue.component('list-items', {
   return {
     items: [
       { task: 
-        {name: null, isComplete: false, dayTime: null}
+        {name: null, isComplete: false, dayTime: null, dueDate: null}
       }
     ],
     }
@@ -31,19 +31,21 @@ Vue.component('list-items', {
        //Adds item to list, if nothing in input nothing happens. Resets input to blank
       AddItem() {                                         
         inputField = document.getElementById(`input`);
+        inputDue = document.getElementById(`due`);
         i = 1; //Test
         if (inputField.value != "") {
           var d = new Date();
           var date = d.toLocaleString();
-          this.items.push({task: {name: (inputField.value), isComplete: false, dayTime: date}});
+          this.items.push({task: {name: (inputField.value), isComplete: false, dayTime: date, dueDate: (inputDue.value)}});
           
           console.log(this.items[i]); //Testing Purposes 
           ++i;      
         }
-      inputField.value="";                                
+      inputField.value = "";
+      inputDue.value = "";                                
       },
       //Delete item from list
-      DeleteItem() {
+      DeleteCompleted() {
         var i = 0;
         while(i < this.items.length) {
           if (this.items[i].task.isComplete === true) {
@@ -59,26 +61,32 @@ Vue.component('list-items', {
   `<div> 
   <ul v-if="items[1]" class = "inner">
   <li v-if="item.task.name" v-for="(item, index) in items" >
-    <h6 v-show="item.task.isComplete"> <del><input type="checkbox" v-model="item.task.isComplete" checked> {{ item.task.name }}</del> 
-    <p class="date">{{ item.task.dayTime}}</p>
+    <h6 v-show="item.task.isComplete"> <del><input type="checkbox" v-model="item.task.isComplete" checked> {{ item.task.name }}
+    <br> Due: {{ item.task.dueDate }}</del> 
+    <p class="date">Created: {{ item.task.dayTime}}</p>
     </h6>
     
     <h6 v-show="!item.task.isComplete"><input type="checkbox" v-model="item.task.isComplete"> {{ item.task.name }} 
-    <p class = "date">{{ item.task.dayTime }}</p>
+    <br> Due: {{ item.task.dueDate }} 
+    <p class = "date">Created: {{ item.task.dayTime }}</p>
     </h6>
   </li>
 </ul>
 
   <div class="input-group mb3 input-group-sm">
     <div class="input-group-prepend">
-      <span class="input-group-text">New Item</span>
+      <span class="input-group-text">New Item:</span>
     </div>
       <input @keyup.enter="AddItem" type="text" id="input">
-      
-  </div>
+      <div class="input-group-prepend">
+      <span class="input-group-text">Due:</span>
+    </div>
+      <input @keyup.enter="AddItem" type="text" id="due">
+    </div>
+    
   <br>
     <button class="btn btn-med btn-primary" style="danger" @click="AddItem" id="addItem">Add Task</button>
-    <button class = "btn btn-med btn-danger" @click="DeleteItem">Delete Completed</button>  
+    <button class = "btn btn-med btn-danger" @click="DeleteCompleted">Delete Completed</button>  
 </div>`,
   })
 
