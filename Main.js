@@ -22,7 +22,7 @@ Vue.component('list-items', {
   return {
     items: [
       { task: 
-        {name: null, isComplete: false, dayTime: null, dueDate: null}
+        {name: null, isComplete: false, dayTime: null, dueDate: null, isClicked: false}
       }
     ],
     }
@@ -36,9 +36,9 @@ Vue.component('list-items', {
         if (inputField.value != "") {
           var d = new Date();
           var date = d.toLocaleString();
-          this.items.push({task: {name: (inputField.value), isComplete: false, dayTime: date, dueDate: (inputDue.value)}});
+          this.items.push({task: {name: (inputField.value), isComplete: false, dayTime: date, dueDate: (inputDue.value), isClicked: false}});
           
-          console.log(this.items[i]); //Testing Purposes 
+          console.log(this.items[i].task.isClicked); //Testing Purposes 
           ++i;      
         }
       inputField.value = "";
@@ -54,20 +54,24 @@ Vue.component('list-items', {
           }
           ++i;
       }
-
-      }
+    },
+      clicked(event) {
+        var x = event.target;
+        delete x;
+   }
   },
   template: 
   `<div> 
   <ul v-if="items[1]" class = "inner">
-  <li v-if="item.task.name" v-for="(item, index) in items" >
-    <div v-show="item.task.isComplete"> 
-    <h5><del><input type="checkbox" v-model="item.task.isComplete" checked> {{ item.task.name }}</del></h5>
-    Due: {{ item.task.dueDate }} 
-    <p class="date">Created: {{ item.task.dayTime}}</p>
+  <li v-if="item.task.name" v-for="(item, index) in items" :key="item.id" >
+    
+    <div v-show="item.task.isComplete" id = index> 
+      <h5><del><input type="checkbox" v-model="item.task.isComplete" checked> {{ item.task.name }}</del></h5>
+      Due: {{ item.task.dueDate }} 
+      <p class="date">Created: {{ item.task.dayTime}}</p>
     </div>
     
-    <div v-show="!item.task.isComplete">
+    <div v-show="!item.task.isComplete" id=index>
       <h5><input type="checkbox" v-model="item.task.isComplete"> {{ item.task.name }}</h5> 
       Due: {{ item.task.dueDate }} 
       <p class = "date">Created: {{ item.task.dayTime }}</p>
@@ -83,12 +87,12 @@ Vue.component('list-items', {
       <div class="input-group-prepend">
       <span class="input-group-text">Due:</span>
     </div>
-      <input @keyup.enter="AddItem" type="text" id="due">
+      <input @keyup.enter="AddItem" placeholder=" ex. August 1st" type="text" id="due">
     </div>
     
   <br>
-    <button class="btn btn-med btn-primary" style="danger" @click="AddItem" id="addItem">Add Task</button>
-    <button class = "btn btn-med btn-danger" @click="DeleteCompleted">Delete Completed</button>  
+    <button class="btn btn-med btn-outline-primary" style="danger" @click="AddItem" id="addItem">Add Task</button>
+    <button class = "btn btn-med btn-outline-secondary" @click="DeleteCompleted">Clear Completed</button>  
 </div>`,
   })
 
