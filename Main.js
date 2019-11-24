@@ -22,9 +22,10 @@ Vue.component('list-items', {
   return {
     items: [
       { task: 
-        {name: null, isComplete: false, dayTime: null, dueDate: null, isClicked: false}
+        {name: null, isComplete: false, dayTime: null, dueDate: null, id: null}
       }
     ],
+    id: 0,
     }
   },
   methods: {
@@ -32,14 +33,14 @@ Vue.component('list-items', {
       AddItem() {                                         
         inputField = document.getElementById(`input`);
         inputDue = document.getElementById(`due`);
-        i = 1; //Test
+         
         if (inputField.value != "") {
           var d = new Date();
           var date = d.toLocaleString();
-          this.items.push({task: {name: (inputField.value), isComplete: false, dayTime: date, dueDate: (inputDue.value), isClicked: false}});
+          this.items.push({task: {name: (inputField.value), isComplete: false, dayTime: date, dueDate: (inputDue.value), id: this.id}});
           
-          console.log(this.items[i].task.isClicked); //Testing Purposes 
-          ++i;      
+          //console.log(this.items[i].task.id); //Testing Purposes 
+          this.id += 1;     
         }
       inputField.value = "";
       inputDue.value = "";                                
