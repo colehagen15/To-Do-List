@@ -68,13 +68,13 @@ Vue.component('list-items', {
     
     <div v-show="item.task.isComplete" id = index> 
       <h5><del><input type="checkbox" v-model="item.task.isComplete" checked> {{ item.task.name }}</del></h5>
-      Due: {{ item.task.dueDate }} 
+      <p v-show="item.task.dueDate">Due: {{ item.task.dueDate }}</p> 
       <p class="date">Created: {{ item.task.dayTime}}</p>
     </div>
     
     <div v-show="!item.task.isComplete" id=index>
       <h5><input type="checkbox" v-model="item.task.isComplete"> {{ item.task.name }}</h5> 
-      Due: {{ item.task.dueDate }} 
+      <p v-show="item.task.dueDate"> Due: {{ item.task.dueDate }}</p> 
       <p class = "date">Created: {{ item.task.dayTime }}</p>
     </div>
   </li>
