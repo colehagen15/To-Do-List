@@ -62,14 +62,10 @@ Vue.component('list-items', {
       },
       //Delete item from list
       DeleteCompleted() {
-        var i = 0;
-        while(i < this.items.length) {
-          if (this.items[i].task.isComplete === true) {
-            this.items.splice(i,1);
-            --i;
-          }
-          ++i;
-      }
+
+      this.items = this.items.filter(item => {
+        return !item.task.isComplete
+      })
     },
       clicked(event) {
         var x = event.target;
