@@ -114,34 +114,3 @@ Vue.component('list-items', {
          
 </div>`,
   })
-
-
-var app = new Vue({
-    el: '#app',
-    data: {
-      message: 'Hello Vue!',
-      greeting: 'what up',
-      id: 0,
-      //To do list items
-      items: []
-    },
-
-    methods: {
-      
-      //Adds item to list, if nothing in input nothing happens. Resets input to blank
-      AddItem() {                                         
-        inputField = document.getElementById(`input`);
-        
-        if (inputField.value != "") {
-          this.items.push({item: (inputField.value) });
-          
-          //Testing Purposes
-          console.log(this.items,this.id);        
-        }
-      this.id+=2;  
-      inputField.value="";                                
-      }
-    }
-  })
-
-  //Create multiple components to accompolish to do list
