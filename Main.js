@@ -33,12 +33,27 @@ Vue.component('list-items', {
       AddItem() {                                         
         inputField = document.getElementById(`input`);
         inputDue = document.getElementById(`due`);
-         
+        assignedDue = inputDue.value;
+        console.log(assignedDue);
+        var dueMonth = "";
+        var dueDay = "";
+        i = 0;
+        for (i = 0; i < assignedDue.length; ++i) {
+          if (assignedDue[i] != ' '){
+            dueMonth += assignedDue[i];
+          }
+          else {
+            break;
+          }  
+        }
+        console.log(dueMonth);
+        
+
         if (inputField.value != "") {
           var d = new Date();
           var date = d.toLocaleString();
-          this.items.push({task: {name: (inputField.value), isComplete: false, dayTime: date, dueDate: (inputDue.value), id: this.id}});
-          
+          this.items.push({task: {name: (inputField.value), isComplete: false, dayTime: date, dueDate: (assignedDue), id: this.id}});
+          //alert(inputField.value + " is due " + inputDue.value);
           //console.log(this.items[i].task.id); //Testing Purposes 
           this.id += 1;     
         }
@@ -59,21 +74,27 @@ Vue.component('list-items', {
       clicked(event) {
         var x = event.target;
         delete x;
-   }
+   },
+   highlight(e) {
+    console.log(e.target);
+    e.target.remove();
+   },
   },
   template: 
   `<div> 
   <ul v-if="items[1]" class = "inner">
-  <li v-if="item.task.name" v-for="(item, index) in items" :key="item.id" >
+  <li v-if="item.task.name" v-for="(item, index) in items" :key="item.id">
     
-    <div v-show="item.task.isComplete" id = index> 
+    <div v-show="item.task.isComplete" id=listItem> 
+      
       <h5><del><input type="checkbox" v-model="item.task.isComplete" checked> {{ item.task.name }}</del></h5>
       <p v-show="item.task.dueDate">Due: {{ item.task.dueDate }}</p> 
       <p class="date">Created: {{ item.task.dayTime}}</p>
     </div>
     
-    <div v-show="!item.task.isComplete" id=index>
-      <h5><input type="checkbox" v-model="item.task.isComplete"> {{ item.task.name }}</h5> 
+    <div v-show="!item.task.isComplete" id=listItem>
+      
+      <h5><input type="checkbox" v-model="item.task.isComplete"> {{ item.task.name }} </h5> 
       <p v-show="item.task.dueDate"> Due: {{ item.task.dueDate }}</p> 
       <p class = "date">Created: {{ item.task.dayTime }}</p>
     </div>
@@ -93,7 +114,8 @@ Vue.component('list-items', {
     
   <br>
     <button class="btn btn-med btn-outline-primary" style="danger" @click="AddItem" id="addItem">Add Task</button>
-    <button class = "btn btn-med btn-outline-secondary" @click="DeleteCompleted">Clear Completed</button>  
+    <button class = "btn btn-med btn-outline-secondary" @click="DeleteCompleted">Clear Completed</button>
+         
 </div>`,
   })
 
