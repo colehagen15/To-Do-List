@@ -21,7 +21,7 @@ Vue.component("ListItem", {
       e.target.remove();
     },
     complete(e) {
-      if (e.target.classList == "item") {
+      if (e.target.classList == "itemName") {
         e.target.classList.add("completed");
         e.target.isComplete = true;
         //this.$emit(e.target.isComplete);
@@ -32,8 +32,8 @@ Vue.component("ListItem", {
     }
   },
   template: 
-  ` <div class="item" @click="complete">
-      <span   class="itemName"> {{ todoItem.name }} </span> <br> Due Date: {{ todoItem.dueDate }} <br> {{todoItem.dayTime}} 
+  ` <div class="item" >
+      <span @click="complete" class="itemName"> {{ todoItem.name }} </span> <br> Due Date: {{ todoItem.dueDate }} <br> {{todoItem.dayTime}} 
     </div>`
 });
 
