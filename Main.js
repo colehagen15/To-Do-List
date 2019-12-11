@@ -1,5 +1,4 @@
 
-
 Vue.component('to-do-app', {
 props: {},
 data() {
@@ -7,23 +6,50 @@ return {}
 },
 template: 
 `<div id="app" >
-<h1>To Do List <img class="image" src="checkmark.jpg"/> </h1>
+  <h1>To Do List <img class="image" src="checkmark.jpg"/> </h1>
 
-<list-items/>
-
+  <list-items/>
 </div>`,
 
 
 })
 
+Vue.component('ListItem', {
+  props: {
+    todoItem: {
+      type: Object,
+  }},
+  methods: {
+    deleteItem(e) {
+      e.target.remove();
+    },
+    complete(e) {
+      if (e.target.classList == "item") {
+        e.target.classList.add("completed");
+        e.target.isComplete= true;
+        //this.$emit(e.target.isComplete);
+        } 
+      else {
+        e.target.classList.remove("completed");
+        e.target.isComplete = false;
+       }
+      
+    }
+  },
+  template: 
+` <div class="item" @click="complete">
+    <span class="itemName"> {{ todoItem.name }} </span> <br> Due Date: {{ todoItem.dueDate }} <br> {{todoItem.dayTime}} 
+  </div>`
+
+
+})
+
 Vue.component('list-items', {
-  props: {},
+  props: [],
   data() {
   return {
     items: [
-      { task: 
-        {name: null, isComplete: false, dayTime: null, dueDate: null, id: null}
-      }
+      { task: {} }
     ],
     id: 0,
     }
@@ -33,30 +59,19 @@ Vue.component('list-items', {
       AddItem() {                                         
         inputField = document.getElementById(`input`);
         inputDue = document.getElementById(`due`);
-        assignedDue = inputDue.value;
-        console.log(assignedDue);
-        var dueMonth = "";
-        var dueDay = "";
-        i = 0;
-        for (i = 0; i < assignedDue.length; ++i) {
-          if (assignedDue[i] != ' '){
-            dueMonth += assignedDue[i];
-          }
-          else {
-            break;
-          }  
-        }
-        console.log(dueMonth);
-        
+        assignedDue = inputDue.value;       
 
         if (inputField.value != "") {
           var d = new Date();
           var date = d.toLocaleString();
+          if (assignedDue == "") {
+            assignedDue = "None";
+          }
           this.items.push({task: {name: (inputField.value), isComplete: false, dayTime: date, dueDate: (assignedDue), id: this.id}});
-          //alert(inputField.value + " is due " + inputDue.value);
-          //console.log(this.items[i].task.id); //Testing Purposes 
+          
           this.id += 1;     
         }
+      
       inputField.value = "";
       inputDue.value = "";                                
       },
@@ -66,38 +81,21 @@ Vue.component('list-items', {
       this.items = this.items.filter(item => {
         return !item.task.isComplete
       })
-    },
-      clicked(event) {
-        var x = event.target;
-        delete x;
-   },
-   highlight(e) {
-    console.log(e.target);
-    e.target.remove();
-   },
+    }, 
   },
   template: 
   `<div> 
-  <ul v-if="items[1]" class = "inner">
-  <li v-if="item.task.name" v-for="(item, index) in items" :key="item.id">
-    
-    <div v-show="item.task.isComplete" id=listItem> 
+  <ul class = "inner">
       
-      <h5><del><input type="checkbox" v-model="item.task.isComplete" checked> {{ item.task.name }}</del></h5>
-      <p v-show="item.task.dueDate">Due: {{ item.task.dueDate }}</p> 
-      <p class="date">Created: {{ item.task.dayTime}}</p>
-    </div>
-    
-    <div v-show="!item.task.isComplete" id=listItem>
+        <ListItem
+          v-show="item.task.name" 
+          v-for="item in items"
+          :todoItem="item.task"/>
       
-      <h5><input type="checkbox" v-model="item.task.isComplete"> {{ item.task.name }} </h5> 
-      <p v-show="item.task.dueDate"> Due: {{ item.task.dueDate }}</p> 
-      <p class = "date">Created: {{ item.task.dayTime }}</p>
-    </div>
-  </li>
-</ul>
+  </ul>
 
-  <div class="input-group mb3 input-group-sm">
+ 
+<div class="input-group mb3 input-group-sm">
     <div class="input-group-prepend">
       <span class="input-group-text">New Item:</span>
     </div>
@@ -111,6 +109,19 @@ Vue.component('list-items', {
   <br>
     <button class="btn btn-med btn-outline-primary" style="danger" @click="AddItem" id="addItem">Add Task</button>
     <button class = "btn btn-med btn-outline-secondary" @click="DeleteCompleted">Clear Completed</button>
-         
+        
 </div>`,
+  })
+  
+  //Necessary for App to Function, don't delete
+  var app = new Vue({
+    el: '#app',
+    data: {
+     
+    },
+
+    methods: {
+      
+      
+    }
   })
