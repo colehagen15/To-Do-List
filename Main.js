@@ -1,24 +1,21 @@
-
-Vue.component('to-do-app', {
-props: {},
-data() {
-return {}
-},
-template: 
-`<div id="app" >
+Vue.component("to-do-app", {
+  props: {},
+  data() {
+    return {};
+  },
+  template: `<div id="app" >
   <h1>To Do List <img class="image" src="checkmark.jpg"/> </h1>
 
   <list-items/>
-</div>`,
+</div>`
+});
 
-
-})
-
-Vue.component('ListItem', {
+Vue.component("ListItem", {
   props: {
     todoItem: {
-      type: Object,
-  }},
+      type: Object
+    }
+  },
   methods: {
     deleteItem(e) {
       e.target.remove();
@@ -26,65 +23,65 @@ Vue.component('ListItem', {
     complete(e) {
       if (e.target.classList == "item") {
         e.target.classList.add("completed");
-        e.target.isComplete= true;
+        e.target.isComplete = true;
         //this.$emit(e.target.isComplete);
-        } 
-      else {
+      } else {
         e.target.classList.remove("completed");
         e.target.isComplete = false;
-       }
-      
+      }
     }
   },
   template: 
-` <div class="item" @click="complete">
-    <span class="itemName"> {{ todoItem.name }} </span> <br> Due Date: {{ todoItem.dueDate }} <br> {{todoItem.dayTime}} 
-  </div>`
+  ` <div class="item" @click="complete">
+      <span   class="itemName"> {{ todoItem.name }} </span> <br> Due Date: {{ todoItem.dueDate }} <br> {{todoItem.dayTime}} 
+    </div>`
+});
 
-
-})
-
-Vue.component('list-items', {
+Vue.component("list-items", {
   props: [],
   data() {
-  return {
-    items: [
-      { task: {} }
-    ],
-    id: 0,
-    }
+    return {
+      items: [{ task: {} }],
+      id: 0
+    };
   },
   methods: {
-       //Adds item to list, if nothing in input nothing happens. Resets input to blank
-      AddItem() {                                         
-        inputField = document.getElementById(`input`);
-        inputDue = document.getElementById(`due`);
-        assignedDue = inputDue.value;       
+    //Adds item to list, if nothing in input nothing happens. Resets input to blank
+    AddItem() {
+      inputField = document.getElementById(`input`);
+      inputDue = document.getElementById(`due`);
+      assignedDue = inputDue.value;
 
-        if (inputField.value != "") {
-          var d = new Date();
-          var date = d.toLocaleString();
-          if (assignedDue == "") {
-            assignedDue = "None";
-          }
-          this.items.push({task: {name: (inputField.value), isComplete: false, dayTime: date, dueDate: (assignedDue), id: this.id}});
-          
-          this.id += 1;     
+      if (inputField.value != "") {
+        var d = new Date();
+        var date = d.toLocaleString();
+        if (assignedDue == "") {
+          assignedDue = "None";
         }
-      
-      inputField.value = "";
-      inputDue.value = "";                                
-      },
-      //Delete item from list
-      DeleteCompleted() {
+        this.items.push({
+          task: {
+            name: inputField.value,
+            isComplete: false,
+            dayTime: date,
+            dueDate: assignedDue,
+            id: this.id
+          }
+        });
 
+        this.id += 1;
+      }
+
+      inputField.value = "";
+      inputDue.value = "";
+    },
+    //Delete item from list
+    DeleteCompleted() {
       this.items = this.items.filter(item => {
-        return !item.task.isComplete
-      })
-    }, 
+        return !item.task.isComplete;
+      });
+    }
   },
-  template: 
-  `<div> 
+  template: `<div> 
   <ul class = "inner">
       
         <ListItem
@@ -110,18 +107,13 @@ Vue.component('list-items', {
     <button class="btn btn-med btn-outline-primary" style="danger" @click="AddItem" id="addItem">Add Task</button>
     <button class = "btn btn-med btn-outline-secondary" @click="DeleteCompleted">Clear Completed</button>
         
-</div>`,
-  })
-  
-  //Necessary for App to Function, don't delete
-  var app = new Vue({
-    el: '#app',
-    data: {
-     
-    },
+</div>`
+});
 
-    methods: {
-      
-      
-    }
-  })
+//Necessary for App to Function, don't delete
+var app = new Vue({
+  el: "#app",
+  data: {},
+
+  methods: {}
+});
