@@ -3,11 +3,12 @@ Vue.component("to-do-app", {
   data() {
     return {};
   },
-  template: `<div id="app" >
-  <h1>To Do List <img class="image" src="checkmark.jpg"/> </h1>
+  template: `
+  <div id="app" >
+    <h1>To Do List <img class="image" src="checkmark.jpg"/> </h1>
 
-  <list-items/>
-</div>`
+    <list-items/>
+  </div>`
 });
 
 Vue.component("ListItem", {
@@ -29,11 +30,22 @@ Vue.component("ListItem", {
         e.target.classList.remove("completed");
         e.target.isComplete = false;
       }
+    },
+    highlight(e) {
+      if (e.target.classList != "itemName" && e.target.classList != "itemName completed") {
+        e.target.classList.add("highlight");
+      }
+      
+    },
+    unhighlight(e) {
+      e.target.classList.remove("highlight");
     }
   },
   template: 
-  ` <div class="item" >
-      <span @click="complete" class="itemName"> {{ todoItem.name }} </span> <br> Due Date: {{ todoItem.dueDate }} <br> {{todoItem.dayTime}} 
+  ` <div data-toggle="tooltip" data-placement="top" title="Click Due Date Created to Delete" @click="deleteItem" class="item" @mouseout="unhighlight">
+     
+      <span   @click="complete" class="itemName"> {{ todoItem.name }} </span> <br> Due Date: {{ todoItem.dueDate }} <br> {{todoItem.dayTime}} 
+      
     </div>`
 });
 
