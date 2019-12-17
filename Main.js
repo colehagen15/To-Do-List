@@ -42,7 +42,7 @@ Vue.component("ListItem", {
     }
   },
   template: 
-  ` <div data-toggle="tooltip" data-placement="top" title="Click Due Date Created to Delete" @click="deleteItem" class="item" @mouseout="unhighlight">
+  ` <div data-toggle="tooltip" data-placement="top" title="Click Due Date to Delete" @click="deleteItem" class="item" @mouseout="unhighlight">
      
       <span   @click="complete" class="itemName"> {{ todoItem.name }} </span> <br> Due Date: {{ todoItem.dueDate }} <br> {{todoItem.dayTime}} 
       
